@@ -23,21 +23,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - uses: actions/checkout@v1
-
-    - run: mkdir -p target/
-
-    - run: echo hello > target/kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar
-
-    - uses: actions/upload-artifact@v1
-      with:
-       name: kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar
-       path: target/
-
-
-    - name: Display structure of downloaded files
-      run: ls -R
-
   cd:
 
     runs-on: ubuntu-18.04
@@ -53,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build -t ${{secrets.DOCKER_CONTAINER_REGISTRY}}/${{secrets.DOCKER_USER}}/kafka-streams-convert-base64-app:latest .
+      run: docker build . --file Dockerfile …
       
     - name: Push
       run: |
