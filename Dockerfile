@@ -1,7 +1,7 @@
 FROM adoptopenjdk/openjdk11:alpine-slim
 
-ARG JAR_FILE=target/kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar
-ARG JAR_LIB_FILE=target/lib/
+ARG JAR_FILE=./target/kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar
+ARG JAR_LIB_FILE=./target/lib/
 ARG EXTERNAL_CONFIG_FILE=target/config/config.properties
 
 # cd /usr/local/runme
