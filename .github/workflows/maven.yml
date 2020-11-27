@@ -38,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build -t ${{secrets.DOCKER_CONTAINER_REGISTRY}}/${{secrets.DOCKER_USER}}/kafka-streams-convert-base64-app:latest .
+      run: docker build . --file backend/Dockerfile ...
       
     - name: Push
       run: |
