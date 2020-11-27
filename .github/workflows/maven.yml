@@ -37,7 +37,7 @@ jobs:
       run: docker build -t ${{secrets.DOCKER_CONTAINER_REGISTRY}}/${{secrets.DOCKER_USER}}/kafka-streams-convert-base64-app:latest
       
     - name: Push
-       run: |
+      run: |
          docker push ${{secrets.DOCKER_CONTAINER_REGISTRY}}/${{secrets.DOCKER_USER}}/kafka-streams-convert-base64-app:$(date +%s)
          docker push ${{secrets.DOCKER_CONTAINER_REGISTRY}}/${{secrets.DOCKER_USER}}/kafka-streams-convert-base64-app:latest
 
