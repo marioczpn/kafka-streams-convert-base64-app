@@ -1,5 +1,5 @@
 APP_NAME=kafka-streams-convert-base64-app
-APP_VERSION=1.0
+APP_VERSION=latest
 DOCKER_REPO=quay.io/marioczpn
 DOCKER_EMAIL=
 DOCKER_USERNAME=

@@ -8,7 +8,7 @@ ARG EXTERNAL_CONFIG_FILE=target/config/config.properties
 WORKDIR /usr/local/runme
 
 # copy target/streams-convert-base64-1.0-SNAPSHOT.jar /usr/local/runme/app.jar
-COPY ${JAR_FILE} kafka-streams-convert-base64-app.jar
+COPY ${JAR_FILE} /usr/local/runme/kafka-streams-convert-base64-app.jar
 
 # copy project dependencies
 # cp -rf target/lib/  /usr/local/runme/lib
