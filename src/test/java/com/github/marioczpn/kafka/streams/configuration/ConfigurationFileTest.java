@@ -1,7 +1,6 @@
 package com.github.marioczpn.kafka.streams.configuration;
 
 import com.github.marioczpn.kafka.streams.constants.Constants;
-import com.github.marioczpn.kafka.streams.processor.Base64ProcessorTest;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
 import org.junit.jupiter.api.Assertions;
@@ -17,14 +16,51 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ConfigurationFileTest {
-    private static final Logger logger = LoggerFactory.getLogger(Base64ProcessorTest.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationFileTest.class.getName());
 
+    /**
+     * This method is setting envinroment variable programatically.
+     *
+     * @param mapEnvVariable
+     * @throws Exception
+     */
+    private static void setEnvironmentVariable(Map<String, String> mapEnvVariable) throws Exception {
+        try {
+
+            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+            theEnvironmentField.setAccessible(true);
+
+            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+            env.putAll(mapEnvVariable);
+
+            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+            theCaseInsensitiveEnvironmentField.setAccessible(true);
+
+            Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
+            cienv.putAll(mapEnvVariable);
+
+        } catch (NoSuchFieldException e) {
+            Class[] classes = Collections.class.getDeclaredClasses();
+            Map<String, String> env = System.getenv();
+            for (Class cl : classes) {
+                if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                    Field field = cl.getDeclaredField("m");
+                    field.setAccessible(true);
+                    Object obj = field.get(env);
+                    Map<String, String> map = (Map<String, String>) obj;
+                    map.clear();
+                    map.putAll(mapEnvVariable);
+                }
+            }
+        }
+    }
 
     @Test
     void shouldNotAllowNullThrowsIllegalArgumentException() {
         ConfigurationFile configFile = new ConfigurationFile();
-        Assertions.assertThrows(IllegalArgumentException.class,  () -> {
-           configFile.buildStreamsProperties(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            configFile.buildStreamsProperties(null);
         });
     }
 
@@ -49,7 +85,7 @@ public class ConfigurationFileTest {
     void shouldLoadEnvPropertiesFromResourceFile() throws Exception {
         Map<String, String> envVariablesMap = new HashMap<>();
         envVariablesMap.put(Constants.APPLICATION_ID_ENVVAR, "");
-        this.setEnvironmentVariable(envVariablesMap);
+        setEnvironmentVariable(envVariablesMap);
 
         ConfigurationFile configFile = new ConfigurationFile();
         Properties streamsProperties = configFile.loadEnvProperties(null);
@@ -70,7 +106,7 @@ public class ConfigurationFileTest {
     void shouldReturnNullNoEnvironmentVariableDefined() throws Exception {
         Map<String, String> envVariablesMap = new HashMap<>();
         envVariablesMap.put(Constants.APPLICATION_ID_ENVVAR, "");
-        this.setEnvironmentVariable(envVariablesMap);
+        setEnvironmentVariable(envVariablesMap);
 
         ConfigurationFile configFile = new ConfigurationFile();
         Properties envVariables = configFile.fromEnv();
@@ -86,50 +122,11 @@ public class ConfigurationFileTest {
         envVariablesMap.put(Constants.BOOTSTRAP_SERVERS_ENVVAR, "bootStrapServer");
         envVariablesMap.put(Constants.INPUT_TOPIC_NAME_ENVVAR, "inputTopic");
         envVariablesMap.put(Constants.STREAMS_OUTPUT_TOPIC_NAME_ENVVAR, "streamsOutputTopicName");
-        this.setEnvironmentVariable(envVariablesMap);
+        setEnvironmentVariable(envVariablesMap);
 
         ConfigurationFile configFile = new ConfigurationFile();
         Properties streamsProperties = configFile.loadEnvProperties(null);
 
         Assertions.assertNotNull(streamsProperties);
-    }
-
-
-    /**
-     * This method is setting envinroment variable programatically.
-     *
-     * @param mapEnvVariable
-     * @throws Exception
-     */
-    private static void setEnvironmentVariable(Map<String, String> mapEnvVariable) throws Exception {
-        try {
-
-            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
-            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
-            theEnvironmentField.setAccessible(true);
-
-            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
-            env.putAll(mapEnvVariable);
-
-            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
-            theCaseInsensitiveEnvironmentField.setAccessible(true);
-
-            Map<String, String> cienv = (Map<String, String>)     theCaseInsensitiveEnvironmentField.get(null);
-            cienv.putAll(mapEnvVariable);
-
-        } catch (NoSuchFieldException e) {
-            Class[] classes = Collections.class.getDeclaredClasses();
-            Map<String, String> env = System.getenv();
-            for(Class cl : classes) {
-                if("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
-                    Field field = cl.getDeclaredField("m");
-                    field.setAccessible(true);
-                    Object obj = field.get(env);
-                    Map<String, String> map = (Map<String, String>) obj;
-                    map.clear();
-                    map.putAll(mapEnvVariable);
-                }
-            }
-        }
     }
 }
