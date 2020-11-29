@@ -39,24 +39,29 @@ The application is using the github actions and it's using a different [Dockerfi
 
 To run the application locally you can use the jar generated into target folder:
 
-- If you set the environment variables you can run:
+
+- If you set the environment variables:
+
+
     export BOOTSTRAP_SERVERS_ENVVAR=127.0.0.1:9092
     export APPLICATION_ID_ENVVAR=streams-convert-base64-project
     export CLIENT_ID_ENVVAR=streams-convert-base64-project-client
     export INPUT_TOPIC_NAME_ENVVAR=input-topic
     export STREAMS_OUTPUT_TOPIC_NAME_ENVVAR=streams-output-topic
 
+you can run: `java -jar kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar`
 
-`java -jar kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar`
 
 - If you prefer, you can run using the [config/config.properties](https://github.com/marioczpn/kafka-streams-convert-base64-app/blob/master/config/config.properties)
 `java -jar kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar config/config.properties`
 
-    - Logs
-`[main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Looking into the config file... 
-[main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Setting EXTERNAL config file sent by argument: config/config.properties
-[main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Ends.
-`
+    - Logs Information:
+    
+        
+    [main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Looking into the config file... 
+    [main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Setting EXTERNAL config file sent by argument: config/config.properties
+    [main] INFO com.github.marioczpn.kafka.streams.configuration.ConfigurationFile - Ends.
+
 
 - In the case if you forget to add a config and environment variable, it will pick up the [resources/config.properties](https://github.com/marioczpn/kafka-streams-convert-base64-app/blob/master/src/main/resources/config.properties)
 
