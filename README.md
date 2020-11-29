@@ -43,11 +43,12 @@ To run the application locally you can use the jar generated into target folder:
 - If you set the environment variables:
 
 
-    export BOOTSTRAP_SERVERS_ENVVAR=127.0.0.1:9092
-    export APPLICATION_ID_ENVVAR=streams-convert-base64-project
-    export CLIENT_ID_ENVVAR=streams-convert-base64-project-client
-    export INPUT_TOPIC_NAME_ENVVAR=input-topic
-    export STREAMS_OUTPUT_TOPIC_NAME_ENVVAR=streams-output-topic
+    export BOOTSTRAP_SERVERS_ENVVAR=127.0.0.1:9092\
+    export APPLICATION_ID_ENVVAR=streams-convert-base64-project\
+    export CLIENT_ID_ENVVAR=streams-convert-base64-project-client\
+    export INPUT_TOPIC_NAME_ENVVAR=input-topic\
+    export STREAMS_OUTPUT_TOPIC_NAME_ENVVAR=streams-output-topic\
+
 
 you can run: `java -jar kafka-streams-convert-base64-app-1.0-SNAPSHOT.jar`
 
