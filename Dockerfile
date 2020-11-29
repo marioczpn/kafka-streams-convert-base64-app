@@ -10,5 +10,6 @@ RUN mvn -f /home/app/pom.xml clean package
 # Package stage
 #
 FROM adoptopenjdk/openjdk11:alpine-slim
+COPY --from=build /home/app/target/lib/ /usr/local/lib/lib
 COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
 ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
