@@ -11,7 +11,7 @@
 - Maven:
     - It is a maven project and all dependencies are available in [pom.xml](https://github.com/marioczpn/kafka-streams-convert-base64-app/blob/master/pom.xml)
  
-* This proect was developed using the IntelliJ IDEA Community
+* This project has being developed using the IntelliJ IDEA Community
 
 # How to build this application?
 
